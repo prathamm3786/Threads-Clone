@@ -6,11 +6,15 @@ import userRoutes from "./routes/UserRoutes.js";
 import postRoutes from "./routes/PostRoutes.js";
 import messageRoutes from "./routes/MessageRoutes.js";
 import { v2 as cloudinary } from "cloudinary";
-import {app,server} from "./socket/socket.js";
+import { app, server } from "./socket/socket.js";
 import cors from "cors";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
 dotenv.config();
 connectDB();
 const PORT = process.env.PORT || 5000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -25,6 +29,14 @@ app.use(cookieParser());
 
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
-app.use("/api/messages",messageRoutes);
+app.use("/api/messages", messageRoutes);
+if (process.env.NODE_ENV === "production") {
+  const frontendPath = path.join(__dirname, "../frontend/dist");
+  app.use(express.static(frontendPath));
 
-server.listen(PORT, () => console.log("Server is running on port"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
+  });
+}
+
+server.listen(PORT, () => console.log(`Server is running on port : ${PORT}`));
