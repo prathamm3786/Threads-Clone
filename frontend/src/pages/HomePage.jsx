@@ -19,7 +19,6 @@ const HomePage = () => {
       try {
         const res = await fetch("/api/posts/feed", {
           method: "GET",
-
         })
         const data = await res.json()
         if (data.error) {
