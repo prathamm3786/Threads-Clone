@@ -39,7 +39,6 @@ const useFollowUnfollow = (user) => {
 			}
 			setFollowing(!following);
 
-			console.log(data);
 		} catch (error) {
 			showToast("Error", error, "error");
 		} finally {
