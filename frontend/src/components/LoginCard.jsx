@@ -34,7 +34,8 @@ export default function LoginCard() {
     password: ""
   })
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     setLoading(true)
     if (!inputs.username || !inputs.password) {
       showToast("error", "Please fill all fields", "error")
@@ -52,6 +53,8 @@ export default function LoginCard() {
       const data = await res.json()
       if (data.error) {
         showToast("error", data.error, "error")
+        setLoading(false);
+        return; 
       }
 
 
@@ -106,7 +109,7 @@ export default function LoginCard() {
                 <InputGroup>
                   <Input type={showPassword ? 'text' : 'password'}
                     value={inputs.password}
-                    onChange={(e) => setInputs({ ...inputs, password: e.target.value }) } required
+                    onChange={(e) => setInputs({ ...inputs, password: e.target.value })} required
                   />
                   <InputRightElement h={'full'}>
                     <Button
@@ -125,7 +128,7 @@ export default function LoginCard() {
                   color={'white'}
                   _hover={{
                     bg: useColorModeValue("gray.700", "gray.800"),
-                  }} onClick={handleLogin} isLoading={loading} type='submit'>
+                  }} onClick={handleLogin} isLoading={loading} >
                   Login
                 </Button>
               </Stack>
