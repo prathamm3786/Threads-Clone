@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development backend/index.js",
     "start": "cross-env NODE_ENV=production node backend/index.js",
-    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "build": "npm install -g vite && npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "type": "module",
   "keywords": [],
@@ -26,5 +26,8 @@
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.9",
     "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "vite": "^6.3.3"
   }
 }
